@@ -1,3 +1,41 @@
+# Crypto Token
+
+This project implements a simple cryptocurrency token on the Internet Computer (IC) using Motoko for the backend and React for the frontend.
+
+## Features
+- Token distribution through a faucet.
+- Balance checking.
+- Secure token transfers between users.
+
+## Prerequisites
+- Install DFINITY SDK: [DFINITY SDK](https://smartcontracts.org/docs/developers-guide/install-upgrade-remove.html)
+- Install Node.js and npm.
+
+## Setup
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/ankitaa-biswas/crypto-token.git
+   cd crypto-token
+   ```
+
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+
+3. Start the DFINITY local replica:
+   ```sh
+   dfx start --background
+   ```
+
+4. Deploy the canisters:
+   ```sh
+   dfx deploy
+   ```
+
+## Usage
+
+
 # Check your Balance
 
 1. Find out your principal id:
@@ -8,7 +46,7 @@ dfx identity get-principal
 
 2. Save it somewhere.
 
-e.g. My principal id is: gbdev-tyqsv-hnvqv-7mgz4-4kcfl-wbv6x-6khez-y56gq-uohqs-quomc-uqe
+
 
 3. Format and store it in a command line variable:
 ```
@@ -24,6 +62,24 @@ echo $OWNER_PUBLIC_KEY
 ```
 dfx canister call token_backend balanceOf "( $OWNER_PUBLIC_KEY )"
 ```
+
+
+
+### Claim Free Tokens
+1. Call the faucet to receive tokens:
+   ```sh
+   dfx canister call token_backend payOut
+   ```
+
+### Transfer Tokens
+1. Transfer tokens to another user:
+   ```sh
+   dfx canister call token_backend transfer '(principal "<recipient-id>", amount)'
+   ```
+
+
+
+
 
 # Charge the Canister
 
@@ -47,37 +103,3 @@ echo $CANISTER_PUBLIC_KEY
 dfx canister call token_backend transfer "($CANISTER_PUBLIC_KEY, 500_000_000)"
 ```
 
-# Deploy the Project to the Live IC Network
-
-1. Create and deploy canisters:
-
-```
-dfx deploy --network ic
-```
-
-2. Check the live canister ID:
-```
-dfx canister --network ic id token_backend
-```
-
-3. Save the live canister ID to a command line variable:
-```
-LIVE_CANISTER_KEY="principal \"$( \dfx canister --network ic id token_backend )\""
-```
-
-4. Check that it worked:
-```
-echo $LIVE_CANISTER_KEY
-```
-
-5. Transfer some tokens to the live canister:
-```
-dfx canister --network ic call token_backend transfer "($LIVE_CANISTER_KEY, 50_000_000)"
-```
-
-6. Get live canister front-end id:
-```
-dfx canister --network ic id token_backend_assets
-```
-7. Copy the id from step 6 and add .raw.ic0.app to the end to form a URL.
-e.g. zdv65-7qaaa-aaaai-qibdq-cai.raw.ic0.app
